@@ -1,13 +1,40 @@
+<div align="center">
+
 # XPFetch
+
+
+
+
+```
+⠀⠀⠀⣤⣴⣾⣿⣿⣿⣿⣿⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡄
+⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⢰⣦⣄⣀⣀⣠⣴⣾⣿⠃
+⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⠀
+⠀⠀⣼⣿⡿⠿⠛⠻⠿⣿⣿⡇⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀
+⠀⠀⠉⠀⠀⠀⢀⠀⠀⠀⠈⠁⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀
+⠀⠀⣠⣴⣶⣿⣿⣿⣷⣶⣤⠀⠀⠀⠈⠉⠛⠛⠛⠉⠉⠀⠀⠀
+⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⣶⣦⣄⣀⣀⣀⣤⣤⣶⠀⠀
+⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀
+⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀
+⢠⣿⡿⠿⠛⠉⠉⠉⠛⠿⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀
+⠘⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⢿⣿⣿⣿⣿⣿⠿⠛⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+```
+
 
 A lightweight, Neofetch/Fastfetch-style system information tool designed specifically for **Windows XP** and older NT systems.
 
 ![Windows XP Compatible](https://img.shields.io/badge/Windows%20XP-Compatible-blue)
 ![C89](https://img.shields.io/badge/Language-C89%2FC90-green)
 ![License MIT](https://img.shields.io/badge/License-MIT-yellow)
+![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
+![Size](https://img.shields.io/badge/Size-<50KB-orange)
+![Platform](https://img.shields.io/badge/Platform-Win32-lightgrey)
+![Portable](https://img.shields.io/badge/Portable-Yes-success)
+![Dependencies](https://img.shields.io/badge/Dependencies-None-informational)
 
 <img width="669" height="333" alt="xpfetch_example1" src="https://github.com/user-attachments/assets/c87944cf-4b24-4b4c-a6cf-c42ee61599dd" />
 
+</div>
 
 ## Features
 
@@ -34,6 +61,12 @@ A lightweight, Neofetch/Fastfetch-style system information tool designed specifi
 ## Screenshot
 
 <img width="1437" height="802" alt="xpfetch_example2" src="https://github.com/user-attachments/assets/6413778c-0cc4-4f5d-b70f-379f765c83e1" />
+
+## Downloads
+
+You can download pre-built binaries directly from the [GitHub Releases page](https://github.com/lazzerex/xpfetch/releases)
+
+Alternatively, you can build from source following the instructions below.
 
 
 ## Building
