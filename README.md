@@ -66,7 +66,7 @@ Alternatively, you can build from source following the instructions below.
 
 ### Build on Windows
 
-1. Install [MinGW](http://www.mingw.org/) or [MinGW-w64](https://www.mingw-w64.org/)
+1. Install [MinGW](https://sourceforge.net/projects/mingw/) or [MinGW-w64](https://www.mingw-w64.org/)
 2. Add MinGW's `bin` directory to your PATH
 3. Open Command Prompt in the project directory
 4. Run the build script:
