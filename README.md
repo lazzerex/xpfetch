@@ -107,7 +107,7 @@ make CC=i686-w64-mingw32-gcc
 Simply run the executable in Windows XP's `cmd.exe`:
 
 ```cmd
-xpfetch.exe
+xpfetch
 ```
 
 That's it! No arguments, no configuration needed.
