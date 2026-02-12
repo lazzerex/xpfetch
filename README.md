@@ -1,20 +1,9 @@
-<div align="center">
+
 
 # XPFetch
 
-```
-⠀⠀⠀                                               ⣤⣴⣾⣿⣿⣿⣿⣿⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡄
-⠀⠀                                               ⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⢰⣦⣄⣀⣀⣠⣴⣾⣿⠃
-⠀⠀                                               ⢸⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⠀
-⠀                                                 ⣼⣿⡿⠿⠛⠻⠿⣿⣿⡇⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀
-⠀⠀                                                 ⠉⠀⠀⠀⢀⠀⠀⠀⠈⠁⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀
-⠀⠀                                                 ⣠⣴⣶⣿⣿⣿⣷⣶⣤⠀⠀⠀⠈⠉⠛⠛⠛⠉⠉⠀⠀⠀
-⠀                                                  ⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⣶⣦⣄⣀⣀⣀⣤⣤⣶⠀⠀
-⠀                                                  ⣾⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀
-⠀                                                  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀
-                                                   ⢠⣿⡿⠿⠛⠉⠉⠉⠛⠿⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀
-                                                    ⠘⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⢿⣿⣿⣿⣿⣿⠿⠛⠀⠀⠀
-```
+<div align="center">
+<img width="296" height="183" alt="image-removebg-preview (1)" src="https://github.com/user-attachments/assets/02f96517-63ae-40e3-b36f-da6221461053" />
 
 
 A lightweight, Neofetch/Fastfetch-style system information tool designed specifically for **Windows XP** and older NT systems.
@@ -31,6 +20,8 @@ A lightweight, Neofetch/Fastfetch-style system information tool designed specifi
 <img width="669" height="333" alt="xpfetch_example1" src="https://github.com/user-attachments/assets/c87944cf-4b24-4b4c-a6cf-c42ee61599dd" />
 
 </div>
+
+
 
 ## Features
 
