@@ -6,6 +6,9 @@ A lightweight, Neofetch/Fastfetch-style system information tool designed specifi
 ![C89](https://img.shields.io/badge/Language-C89%2FC90-green)
 ![License MIT](https://img.shields.io/badge/License-MIT-yellow)
 
+<img width="669" height="333" alt="xpfetch_example1" src="https://github.com/user-attachments/assets/c87944cf-4b24-4b4c-a6cf-c42ee61599dd" />
+
+
 ## Features
 
 - **Native Windows XP support** - Fully compatible with all XP versions (including pre-SP2)
@@ -29,6 +32,8 @@ A lightweight, Neofetch/Fastfetch-style system information tool designed specifi
 - Disk space (system drive usage)
 
 ## Screenshot
+
+<img width="1437" height="802" alt="xpfetch_example2" src="https://github.com/user-attachments/assets/6413778c-0cc4-4f5d-b70f-379f765c83e1" />
 
 
 ## Building
