@@ -1,0 +1,34 @@
+# Build artifacts
+*.exe
+*.o
+*.obj
+
+# Visual Studio
+*.pdb
+*.ilk
+*.suo
+*.user
+*.filters
+*.vcxproj
+.vs/
+
+# MinGW/GCC
+*.a
+*.dll
+
+# IDE files
+.vscode/
+.idea/
+
+# Test outputs
+test
+test.exe
+
+# Temporary files
+*.tmp
+*.log
+*~
+
+# OS files
+Thumbs.db
+.DS_Store
