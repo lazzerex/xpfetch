@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "logo.h"
 #include "console.h"
+#include "config.h"
 #include "sysinfo.h"
 
 #define MAX_INFO_LINES 25
@@ -16,6 +17,35 @@ static char* xp_strdup(const char *str) {
         memcpy(dup, str, len);
     }
     return dup;
+}
+
+static void append_info_line(const char **info_lines, int *info_count, const char *label, const char *value) {
+    char buffer[256];
+
+    sprintf(buffer, "%s: %s", label, value);
+    info_lines[*info_count] = xp_strdup(buffer);
+    (*info_count)++;
+}
+
+static void append_blank_line(const char **info_lines, int *info_count) {
+    info_lines[*info_count] = xp_strdup("");
+    (*info_count)++;
+}
+
+static void select_logo(const XPFetchConfig *config, const char ***logo_lines, int *logo_count) {
+    if (strcmp(config->logo, "w2k") == 0) {
+        *logo_lines = w2k_logo;
+        *logo_count = w2k_logo_lines;
+    } else if (strcmp(config->logo, "win") == 0) {
+        *logo_lines = win_logo;
+        *logo_count = win_logo_lines;
+    } else if (strcmp(config->logo, "ascii") == 0 || strcmp(config->logo, "fallback") == 0) {
+        *logo_lines = win_ascii_logo;
+        *logo_count = win_ascii_logo_lines;
+    } else {
+        *logo_lines = xp_logo;
+        *logo_count = xp_logo_lines;
+    }
 }
 
 typedef struct {
@@ -46,45 +76,58 @@ void fetch_system_info(SystemInfo *info) {
     get_disk_info(info->disk, sizeof(info->disk));
 }
 
-void print_layout(const char **logo_lines, int logo_count, SystemInfo *info) {
+void print_layout(const char **logo_lines, int logo_count, SystemInfo *info, const XPFetchConfig *config) {
     const char *info_lines[MAX_INFO_LINES];
     int info_count = 0;
-    char buffer[256];
     int i, max_lines;
-    
-    sprintf(buffer, "OS: %s", info->os);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    sprintf(buffer, "Host: %s", info->hostname);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    sprintf(buffer, "Kernel: %s", info->kernel);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    sprintf(buffer, "Uptime: %s", info->uptime);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    sprintf(buffer, "Shell: %s", info->shell);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    sprintf(buffer, "Resolution: %s", info->resolution);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    info_lines[info_count++] = xp_strdup("");
-    
-    sprintf(buffer, "CPU: %s", info->cpu);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    sprintf(buffer, "GPU: %s", info->gpu);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    sprintf(buffer, "Memory: %s", info->memory);
-    info_lines[info_count++] = xp_strdup(buffer);
-    
-    info_lines[info_count++] = xp_strdup("");
-    
-    sprintf(buffer, "Disk (C:): %s", info->disk);
-    info_lines[info_count++] = xp_strdup(buffer);
+
+    if (config->show_os) {
+        append_info_line(info_lines, &info_count, "OS", info->os);
+    }
+
+    if (config->show_host) {
+        append_info_line(info_lines, &info_count, "Host", info->hostname);
+    }
+
+    if (config->show_kernel) {
+        append_info_line(info_lines, &info_count, "Kernel", info->kernel);
+    }
+
+    if (config->show_uptime) {
+        append_info_line(info_lines, &info_count, "Uptime", info->uptime);
+    }
+
+    if (config->show_shell) {
+        append_info_line(info_lines, &info_count, "Shell", info->shell);
+    }
+
+    if (config->show_resolution) {
+        append_info_line(info_lines, &info_count, "Resolution", info->resolution);
+    }
+
+    if ((config->show_cpu || config->show_gpu || config->show_memory) && info_count > 0) {
+        append_blank_line(info_lines, &info_count);
+    }
+
+    if (config->show_cpu) {
+        append_info_line(info_lines, &info_count, "CPU", info->cpu);
+    }
+
+    if (config->show_gpu) {
+        append_info_line(info_lines, &info_count, "GPU", info->gpu);
+    }
+
+    if (config->show_memory) {
+        append_info_line(info_lines, &info_count, "Memory", info->memory);
+    }
+
+    if (config->show_disk) {
+        if (info_count > 0) {
+            append_blank_line(info_lines, &info_count);
+        }
+
+        append_info_line(info_lines, &info_count, "Disk (C:)", info->disk);
+    }
     
     max_lines = (logo_count > info_count) ? logo_count : info_count;
     
@@ -127,11 +170,17 @@ void print_layout(const char **logo_lines, int logo_count, SystemInfo *info) {
 }
 
 int main(int argc, char *argv[]) {
+    XPFetchConfig config;
     SystemInfo info;
+    const char **logo_lines;
+    int logo_count;
     
     init_console();
+    config_init(&config);
+    load_config(&config, "xpfetch.conf");
     fetch_system_info(&info);
-    print_layout(xp_logo, xp_logo_lines, &info);
+    select_logo(&config, &logo_lines, &logo_count);
+    print_layout(logo_lines, logo_count, &info, &config);
     
     return 0;
 }
