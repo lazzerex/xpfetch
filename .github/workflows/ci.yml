@@ -26,21 +26,7 @@ jobs:
 
       - name: Build test binary
         run: |
-          i686-w64-mingw32-gcc -Wall -O2 -std=c89 -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 \
-            -o test.exe \
-            test.c \
-            src/config.c \
-            src/console.c \
-            src/sys_os.c \
-            src/sys_kernel.c \
-            src/sys_cpu.c \
-            src/sys_gpu.c \
-            src/sys_mem.c \
-            src/sys_uptime.c \
-            src/sys_shell.c \
-            src/sys_disk.c \
-            src/sys_display.c \
-            src/sys_user.c
+          i686-w64-mingw32-gcc -Wall -Wno-unused-variable -O2 -std=c89 -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -o test.exe test.c src/config.c src/console.c src/sys_os.c src/sys_kernel.c src/sys_cpu.c src/sys_gpu.c src/sys_mem.c src/sys_uptime.c src/sys_shell.c src/sys_disk.c src/sys_display.c src/sys_user.c
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
