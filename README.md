@@ -110,7 +110,25 @@ Simply run the executable in Windows XP's `cmd.exe`:
 xpfetch
 ```
 
-That's it! No arguments, no configuration needed.
+That's it! No arguments are required. If you want to customize the output, place an optional `xpfetch.conf` file next to the executable.
+
+## Configuration
+
+The config file uses simple `key=value` lines and is intentionally small so it stays XP-friendly.
+
+Example:
+
+```ini
+logo=ascii
+show_gpu=0
+show_shell=1
+show_disk=1
+```
+
+Supported keys:
+
+- `logo` values: `xp`, `w2k`, `win`, `ascii`, `fallback`
+- `show_os`, `show_host`, `show_kernel`, `show_uptime`, `show_shell`, `show_resolution`, `show_cpu`, `show_gpu`, `show_memory`, `show_disk`
 
 ## Project Structure
 
@@ -118,6 +136,7 @@ That's it! No arguments, no configuration needed.
 xpfetch/
 ├── src/
 │   ├── main.c           # Entry point and layout engine
+│   ├── config.c/h       # Simple config parsing
 │   ├── logo.h           # ASCII logo definitions
 │   ├── console.h/c      # Win32 console color handling
 │   ├── sysinfo.h        # System info function declarations
