@@ -8,12 +8,13 @@ CC = gcc
 TARGET = xpfetch.exe
 
 # Compiler flags for Windows XP compatibility
-CFLAGS = -Wall -O2 -std=c89 -D_WIN32_WINNT=0x0501 -DWINVER=0x0501
+CFLAGS = -Wall -Wno-unused-variable -O2 -std=c89 -D_WIN32_WINNT=0x0501 -DWINVER=0x0501
 LDFLAGS = -static -s
 
 # Source files
 SRCS = src/main.c \
        src/console.c \
+       src/config.c \
        src/sys_os.c \
        src/sys_kernel.c \
        src/sys_cpu.c \
