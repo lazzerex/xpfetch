@@ -51,6 +51,7 @@ cl /nologo /c /O2 /MT /W3 /D_WIN32_WINNT=0x0501 /DWINVER=0x0501 ^
    /Foobj\ ^
    src\main.c ^
    src\console.c ^
+    src\config.c ^
    src\sys_os.c ^
    src\sys_cpu.c ^
    src\sys_mem.c ^
