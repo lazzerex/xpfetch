@@ -1,5 +1,5 @@
 /*
- * disk space information for system drive
+ * disk space information for all fixed and removable drives
  */
 
 #include "sysinfo.h"
@@ -11,7 +11,7 @@ static void format_bytes(ULARGE_INTEGER bytes, char *buffer, size_t size) {
     double kb = bytes.QuadPart / 1024.0;
     double mb = kb / 1024.0;
     double gb = mb / 1024.0;
-    
+
     if (gb >= 1.0) {
         sprintf(buffer, "%.2f GB", gb);
     } else if (mb >= 1.0) {
@@ -21,35 +21,44 @@ static void format_bytes(ULARGE_INTEGER bytes, char *buffer, size_t size) {
     }
 }
 
-void get_disk_info(char *buffer, size_t size) {
+int get_disk_info(DiskEntry *entries, int max_entries) {
     ULARGE_INTEGER free_bytes;
     ULARGE_INTEGER total_bytes;
     ULARGE_INTEGER used_bytes;
-    char system_path[MAX_PATH];
-    char system_drive[4];
-    char free_str[32];
+    DWORD drives = GetLogicalDrives();
+    UINT old_mode = SetErrorMode(SEM_FAILCRITICALERRORS);
+    char root[4] = "A:\\";
+    char used_str[32];
     char total_str[32];
-    
-    /* Get Windows directory path (e.g., "C:\Windows") */
-    if (GetWindowsDirectoryA(system_path, sizeof(system_path)) > 0) {
-        /* Extract drive letter (e.g., "C:\") */
-        system_drive[0] = system_path[0];
-        system_drive[1] = ':';
-        system_drive[2] = '\\';
-        system_drive[3] = '\0';
-    } else {
-        /* Fallback to C: drive */
-        strcpy(system_drive, "C:\\");
-    }
-    
-    if (GetDiskFreeSpaceExA(system_drive, &free_bytes, &total_bytes, NULL)) {
+    UINT type;
+    int count = 0;
+    int i;
+
+    for (i = 0; i < 26 && count < max_entries; i++) {
+        if (!(drives & (1UL << i))) {
+            continue;
+        }
+
+        root[0] = (char)('A' + i);
+        type = GetDriveTypeA(root);
+        if (type != DRIVE_FIXED && type != DRIVE_REMOVABLE) {
+            continue;
+        }
+
+        if (!GetDiskFreeSpaceExA(root, &free_bytes, &total_bytes, NULL) ||
+            total_bytes.QuadPart == 0) {
+            continue;
+        }
+
         used_bytes.QuadPart = total_bytes.QuadPart - free_bytes.QuadPart;
-        
-        format_bytes(used_bytes, free_str, sizeof(free_str));
+        format_bytes(used_bytes, used_str, sizeof(used_str));
         format_bytes(total_bytes, total_str, sizeof(total_str));
-        
-        sprintf(buffer, "%s / %s (%s)", free_str, total_str, system_drive);
-    } else {
-        strcpy(buffer, "Unknown");
+
+        sprintf(entries[count].drive, "%c:", root[0]);
+        sprintf(entries[count].usage, "%s / %s", used_str, total_str);
+        count++;
     }
+
+    SetErrorMode(old_mode);
+    return count;
 }
