@@ -7,7 +7,7 @@
 #include "config.h"
 #include "sysinfo.h"
 
-#define MAX_INFO_LINES 25
+#define MAX_INFO_LINES 40
 #define LOGO_WIDTH 20
 
 static char* xp_strdup(const char *str) {
@@ -19,17 +19,31 @@ static char* xp_strdup(const char *str) {
     return dup;
 }
 
-static void append_info_line(const char **info_lines, int *info_count, const char *label, const char *value) {
-    char buffer[256];
+static void append_text(const char **info_lines, int *info_count, const char *text) {
+    char *dup;
 
-    sprintf(buffer, "%s: %s", label, value);
-    info_lines[*info_count] = xp_strdup(buffer);
+    if (*info_count >= MAX_INFO_LINES) {
+        return;
+    }
+
+    dup = xp_strdup(text);
+    if (dup == NULL) {
+        return;
+    }
+
+    info_lines[*info_count] = dup;
     (*info_count)++;
 }
 
+static void append_info_line(const char **info_lines, int *info_count, const char *label, const char *value) {
+    char buffer[256];
+
+    snprintf(buffer, sizeof(buffer), "%s: %s", label, value);
+    append_text(info_lines, info_count, buffer);
+}
+
 static void append_blank_line(const char **info_lines, int *info_count) {
-    info_lines[*info_count] = xp_strdup("");
-    (*info_count)++;
+    append_text(info_lines, info_count, "");
 }
 
 static void select_logo(const XPFetchConfig *config, const char ***logo_lines, int *logo_count) {
@@ -52,31 +66,30 @@ typedef struct {
     char os[128];
     char kernel[64];
     char hostname[64];
-    char username[64];
     char uptime[64];
     char shell[64];
     char resolution[32];
     char cpu[128];
     char gpu[128];
     char memory[64];
-    char disk[64];
+    DiskEntry disks[MAX_DISKS];
+    int disk_count;
 } SystemInfo;
 
-void fetch_system_info(SystemInfo *info) {
+static void fetch_system_info(SystemInfo *info) {
     get_os_info(info->os, sizeof(info->os));
     get_kernel_info(info->kernel, sizeof(info->kernel));
     get_hostname_info(info->hostname, sizeof(info->hostname));
-    get_username_info(info->username, sizeof(info->username));
     get_uptime_info(info->uptime, sizeof(info->uptime));
     get_shell_info(info->shell, sizeof(info->shell));
     get_display_info(info->resolution, sizeof(info->resolution));
     get_cpu_info(info->cpu, sizeof(info->cpu));
     get_gpu_info(info->gpu, sizeof(info->gpu));
     get_memory_info(info->memory, sizeof(info->memory));
-    get_disk_info(info->disk, sizeof(info->disk));
+    info->disk_count = get_disk_info(info->disks, MAX_DISKS);
 }
 
-void print_layout(const char **logo_lines, int logo_count, SystemInfo *info, const XPFetchConfig *config) {
+static void print_layout(const char **logo_lines, int logo_count, SystemInfo *info, const XPFetchConfig *config) {
     const char *info_lines[MAX_INFO_LINES];
     int info_count = 0;
     int i, max_lines;
@@ -121,12 +134,17 @@ void print_layout(const char **logo_lines, int logo_count, SystemInfo *info, con
         append_info_line(info_lines, &info_count, "Memory", info->memory);
     }
 
-    if (config->show_disk) {
+    if (config->show_disk && info->disk_count > 0) {
         if (info_count > 0) {
             append_blank_line(info_lines, &info_count);
         }
 
-        append_info_line(info_lines, &info_count, "Disk (C:)", info->disk);
+        for (i = 0; i < info->disk_count; i++) {
+            char label[16];
+
+            sprintf(label, "Disk (%s)", info->disks[i].drive);
+            append_info_line(info_lines, &info_count, label, info->disks[i].usage);
+        }
     }
     
     max_lines = (logo_count > info_count) ? logo_count : info_count;
@@ -169,15 +187,34 @@ void print_layout(const char **logo_lines, int logo_count, SystemInfo *info, con
     }
 }
 
-int main(int argc, char *argv[]) {
+static void build_config_path(char *path, size_t size) {
+    static const char file_name[] = "xpfetch.conf";
+    DWORD length = GetModuleFileNameA(NULL, path, (DWORD)size);
+    char *last_slash = NULL;
+
+    if (length > 0 && length < size) {
+        last_slash = strrchr(path, '\\');
+    }
+
+    if (last_slash == NULL || (size_t)(last_slash - path) + 1 + sizeof(file_name) > size) {
+        strcpy(path, file_name);
+        return;
+    }
+
+    strcpy(last_slash + 1, file_name);
+}
+
+int main(void) {
     XPFetchConfig config;
+    char config_path[MAX_PATH];
     SystemInfo info;
     const char **logo_lines;
     int logo_count;
     
     init_console();
     config_init(&config);
-    load_config(&config, "xpfetch.conf");
+    build_config_path(config_path, sizeof(config_path));
+    load_config(&config, config_path);
     fetch_system_info(&info);
     select_logo(&config, &logo_lines, &logo_count);
     print_layout(logo_lines, logo_count, &info, &config);
