@@ -8,7 +8,7 @@
 
 void get_display_info(char *buffer, size_t size) {
     DEVMODEA dm;
-    int refresh_rate;
+    DWORD refresh_rate;
     
     ZeroMemory(&dm, sizeof(dm));
     dm.dmSize = sizeof(dm);
