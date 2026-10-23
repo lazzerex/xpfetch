@@ -4,7 +4,7 @@
  * This file can be used to test individual system info functions
  * without running the full program.
  * 
- * Build: gcc -o test.exe test.c src/*.c -D_WIN32_WINNT=0x0501
+ * Build: gcc -o test.exe test.c src/config.c src/console.c src/sys_*.c -D_WIN32_WINNT=0x0501
  */
 
 #include <stdio.h>
@@ -41,10 +41,14 @@ void test_uptime_info(void) {
 }
 
 void test_disk_info(void) {
-    char buffer[256];
+    DiskEntry entries[MAX_DISKS];
+    int count, i;
     printf("Testing Disk Info...\n");
-    get_disk_info(buffer, sizeof(buffer));
-    printf("  Result: %s\n\n", buffer);
+    count = get_disk_info(entries, MAX_DISKS);
+    for (i = 0; i < count; i++) {
+        printf("  Result: %s %s\n", entries[i].drive, entries[i].usage);
+    }
+    printf("\n");
 }
 
 void test_display_info(void) {
