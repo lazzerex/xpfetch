@@ -43,7 +43,7 @@ A lightweight, Neofetch/Fastfetch-style system information tool designed specifi
 - CPU (brand, model, core count via CPUID)
 - GPU (graphics card model)
 - Memory (used/total RAM)
-- Disk space (system drive usage)
+- Disk space (usage for every fixed and removable drive)
 
 ## Screenshot
 
@@ -227,7 +227,8 @@ Available color flags:
 
 - **Single monitor only** - Only detects primary display resolution
 - **CPU detection requires CPUID** - May not work on very old CPUs (pre-Pentium)
-- **System drive only** - Disk info shows C: drive (or Windows system drive)
+- **Local drives only** - Disk info lists fixed and removable drives; network drives and CD-ROMs are skipped
+- **Uptime wraps after ~49.7 days** - `GetTickCount` is a 32-bit counter on Windows XP
 - **English only** - No localization support yet
 - **No network info** - Network adapter details not currently displayed
 
@@ -252,7 +253,7 @@ Contributions welcome! Areas for improvement:
 - More ASCII logos (Windows 2000, NT 4.0, etc.)
 - Windows 98/ME support (if possible)
 - Multi-monitor support
-- Drive selection for disk info
+- Network drive support for disk info
 
 ## Contact
 
